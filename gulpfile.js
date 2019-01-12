@@ -1,20 +1,28 @@
-var gulp = require('gulp');
-var sass = require('gulp-sass');
+const gulp = require('gulp');
+const sass = require('gulp-sass');
+const logger = require('gulp-logger');
 
 // SassとCssの保存先を指定
-gulp.task('sass', function(){
-	gulp.src('./assets/sass/main.scss')
-		.pipe(sass({outputStyle: 'expanded'}))
+gulp.task('sass', done => {
+	gulp.src('./assets/sass/*.scss')
+		.pipe(logger({
+			before: 'Start Compiling...',
+      after: 'Compile Finished!',
+      extname: '.scss',
+      showChange: true
+		}))
+		.pipe(sass({outputStyle: 'expanded'})).on('error', sass.logError)
 		.pipe(gulp.dest('./assets/css/'));
+	done();
 });
 
-//自動監視のタスクを作成(sass-watchと名付ける)
-gulp.task('default', function() {
-	var watcher = gulp.watch("./assets/sass/main.scss", gulp.series('sass'));
-	// function() {
-	//   gulp.start(['sass']);
-	// });
+gulp.task('watch', () => {
+	var watcher = gulp.watch(["./assets/sass/*.scss", "./assets/sass/**/*.scss"], gulp.series('sass'));
+
 	watcher.on('change', function(event) {
 		console.log('File ' + event + ' has been changed.');
 	});
 });
+
+//自動監視のタスクを作成(sass-watchと名付ける)
+gulp.task('default', gulp.series('sass', 'watch'));
