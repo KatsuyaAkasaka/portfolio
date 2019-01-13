@@ -4,8 +4,136 @@
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 */
 
-(function($) {
+const w = 640;
+const h = 480;
+let svg;
+let simulation;
+let nodeData = [];
+let linkData = []; 
+let node, link;
+const nodeSize = 60;
 
+function makeData() {
+	const nodePath = ['icon', 'js', 'nodejs', 'unity', 'rails', 'cpp'];
+	nodePath.forEach((v,i) => {
+		const nodeObj = {
+			'id': i,
+			'path': v,
+			'size': nodeSize
+		};
+		nodeData.push(nodeObj);
+	});
+	nodeData.forEach(v => {
+		if(v.id != 0) linkData.push({'source':0, 'target':v.id}); 
+	});
+}
+
+function makeElement() {
+	link = svg.selectAll("line")
+		.data(linkData)
+		.enter()
+		.append("line")
+		.attr('stroke', "#ccc")
+		.attr("stroke-width", 1);
+
+	node = svg.selectAll("circle")
+		.data(nodeData)
+		.enter()
+		.append("image")
+		.attr("xlink:href",d => {return `images/${d.path}.png`})
+		.attr('width', nodeSize)
+		.attr('height', nodeSize)
+		.call(d3.drag()
+			.on("start", dragstarted)
+			.on("drag", dragged)
+			.on("end", dragended));
+
+	simulation = d3.forceSimulation()
+		.force('link', d3.forceLink()
+			.distance(200)
+			.strength(0.03)
+			.iterations(16))
+		.force("collide",
+			d3.forceCollide()
+			.radius(function(d) { return d.r; })
+			.strength(0.7)
+			.iterations(16))
+		.force("charge", d3.forceManyBody().strength(-200))
+		.force("x", d3.forceX().strength(0.02).x(w / 2))
+		.force("y", d3.forceY().strength(0.02).y(h / 2))
+		.force("center", d3.forceCenter(w/2, h/2));
+}
+
+function applyElement() {
+	simulation
+		.velocityDecay(0.02)
+	simulation
+		.nodes(nodeData)
+		.on("tick", ticked);
+
+	simulation.force("link")
+		.links(linkData)
+		.id(function(d) { return d.index; });
+}
+
+
+  // 4. forceSimulation 描画更新用関数
+  function ticked() {
+		node
+			.attr('x', function(d) { 
+				console.log(d);
+				// if(d.id === 0) return w/2;
+				return d.x - d.size/2; })
+			.attr('y', function(d) { 
+				// if(d.id === 0) return h/2;
+				return d.y - d.size/2; });
+		link
+			.attr('x1', function(d) {
+				// if(d.source.id === 0) return w/2;
+				return d.source.x; })
+			.attr('y1', function(d) {
+				// if(d.source.id === 0) return h/2;
+				return d.source.y; })
+			.attr('x2', function(d) { return d.target.x; })
+			.attr('y2', function(d) { return d.target.y; });
+		const root = simulation.nodes()[0];
+		root.fx = w/2;
+		root.fy = h/2;
+  }
+
+  // 5. ドラッグ時のイベント関数
+function dragstarted(d) {
+	if(!d3.event.active) simulation.alphaTarget(0.3).restart();
+	d.fx = d.x;
+	d.fy = d.y;
+}
+
+function dragged(d) {
+	d.fx = d3.event.x;
+	d.fy = d3.event.y;
+}
+
+function dragended(d) {
+	if(!d3.event.active) simulation.alphaTarget(0);
+	d.fx = null;
+	d.fy = null;
+}
+
+
+function createMap () {
+	svg = d3.select("#skillMap")
+		.append("svg")
+		.attr('width', w)
+		.attr('height', h);
+
+	makeData();
+
+	makeElement();
+
+	applyElement();
+}
+
+(function($) {
 	var	$window = $(window),
 		$body = $('body'),
 		$main = $('#main');
@@ -119,5 +247,7 @@
 		$('.scrolly').scrolly({
 			speed: 1000
 		});
+
+	createMap();
 
 })(jQuery);
