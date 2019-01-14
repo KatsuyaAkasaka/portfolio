@@ -4,7 +4,7 @@
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 */
 
-const w = 640;
+const w = 1000;
 const h = 480;
 let svg;
 let simulation;
@@ -77,9 +77,9 @@ function makeElement() {
 		.force("collide",
 			d3.forceCollide()
 			.radius(function(d) { return d.r; })
-			.strength(0.7)
+			.strength(0.1)
 			.iterations(16))
-		.force("charge", d3.forceManyBody().strength(-200))
+		.force("charge", d3.forceManyBody().strength(-800))
 		.force("x", d3.forceX().strength(0.02).x(w / 2))
 		.force("y", d3.forceY().strength(0.02).y(h / 2))
 		.force("center", d3.forceCenter(w/2, h/2));
