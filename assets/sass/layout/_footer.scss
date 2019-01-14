@@ -15,7 +15,7 @@
 
 		> * {
 			width: calc(50% - #{_size(element-margin)});
-			margin-left: _size(element-margin);
+			// margin-left: _size(element-margin);
 		}
 
 		.copyright {
