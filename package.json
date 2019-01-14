@@ -5,9 +5,14 @@
   "main": "gulpfile.js",
   "dependencies": {},
   "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.2.3",
     "gulp": "^4.0.0",
+    "gulp-babel": "^8.0.0",
     "gulp-logger": "0.0.2",
-    "gulp-sass": "^4.0.2"
+    "gulp-rename": "^1.4.0",
+    "gulp-sass": "^4.0.2",
+    "gulp-uglify": "^3.0.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

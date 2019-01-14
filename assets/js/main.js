@@ -12,14 +12,35 @@ let nodeData = [];
 let linkData = []; 
 let node, link;
 const nodeSize = 60;
+const maxPow = 3;
 
 function makeData() {
-	const nodePath = ['icon', 'js', 'nodejs', 'unity', 'rails', 'cpp'];
+	const nodePath = [
+		{
+			'name':'icon',
+			'pow': 3 }, 
+		{
+			'name':'js',
+			'pow':5 },
+		{
+			'name':'nodejs',
+			'pow':4 },
+		{
+			'name':'unity',
+			'pow': 3 },
+		{
+			'name':'rails',
+			'pow':3 },
+		{
+			'name':'cpp',
+			'pow':3 }
+		];
 	nodePath.forEach((v,i) => {
 		const nodeObj = {
 			'id': i,
-			'path': v,
-			'size': nodeSize
+			'path': v.name,
+			'pow' : v.pow,
+			'size': nodeSize * Math.pow((v.pow / maxPow), 2)
 		};
 		nodeData.push(nodeObj);
 	});
@@ -41,8 +62,8 @@ function makeElement() {
 		.enter()
 		.append("image")
 		.attr("xlink:href",d => {return `images/${d.path}.png`})
-		.attr('width', nodeSize)
-		.attr('height', nodeSize)
+		.attr('width', d => {return d.size})
+		.attr('height', d => {return d.size})
 		.call(d3.drag()
 			.on("start", dragstarted)
 			.on("drag", dragged)
@@ -80,20 +101,11 @@ function applyElement() {
   // 4. forceSimulation 描画更新用関数
   function ticked() {
 		node
-			.attr('x', function(d) { 
-				console.log(d);
-				// if(d.id === 0) return w/2;
-				return d.x - d.size/2; })
-			.attr('y', function(d) { 
-				// if(d.id === 0) return h/2;
-				return d.y - d.size/2; });
+			.attr('x', function(d) { return d.x - d.size/2; })
+			.attr('y', function(d) { return d.y - d.size/2; });
 		link
-			.attr('x1', function(d) {
-				// if(d.source.id === 0) return w/2;
-				return d.source.x; })
-			.attr('y1', function(d) {
-				// if(d.source.id === 0) return h/2;
-				return d.source.y; })
+			.attr('x1', function(d) { return d.source.x; })
+			.attr('y1', function(d) { return d.source.y; })
 			.attr('x2', function(d) { return d.target.x; })
 			.attr('y2', function(d) { return d.target.y; });
 		const root = simulation.nodes()[0];
