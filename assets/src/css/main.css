@@ -1918,8 +1918,8 @@ input[type="radio"]:focus + label:before {
 
 .icon img {
   border-radius: 100%;
-  max-width: 30%;
-  max-height: 30%;
+  max-width: 10%;
+  max-height: 10%;
 }
 
 .icon > .label {
@@ -2694,6 +2694,7 @@ table.alt tbody tr td {
 
 #header p {
   font-size: 1.25em;
+  margin: 0;
   letter-spacing: -0.025em;
 }
 
