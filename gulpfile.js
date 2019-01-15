@@ -24,9 +24,7 @@ gulp.task('sass', done => {
 gulp.task('css-minify', done => {
 	gulp.src(['./assets/src/css/*.css', '!./assets/src/css/*.min.css'])
     .pipe(cleanCSS())
-		.pipe(rename({
-			extname: '.min.css'
-		}))
+		.pipe(rename({ extname: '.min.css' }))
 		.pipe(gulp.dest('./assets/dest/css/'));
 
 	gulp.src(['!./assets/src/css/*.css', './assets/src/css/*.min.css'])
@@ -54,7 +52,13 @@ gulp.task('js-minify', done => {
 });
 
 gulp.task('html-minify', done => {
-	gulp.src('./*.html')
+	gulp.src(['./assets/src/html/*.html', '!./assets/src/html/*.min.html'])
+		.pipe(logger({
+			before: 'Start Minifying...',
+      after: 'Minify Finished!',
+      extname: '.html',
+      showChange: true
+		}))
     .pipe(cleanHTML({
         collapseWhitespace : true,
         removeComments : true
@@ -68,14 +72,7 @@ gulp.task('html-minify', done => {
 gulp.task('watch', () => {
 	let watchSCSS = gulp.watch(["./assets/src/sass/*.scss", "./assets/src/sass/**/*.scss"], gulp.series('sass', 'css-minify'));
 	let watchJS = gulp.watch(["./assets/src/js/*.js"], gulp.series('js-minify'));
-	let watchHTML = gulp.watch('/*.html', gulp.series('html-minify'));
-
-	// watchSCSS.on('change', function(event) {
-	//   console.log('File ' + event + ' has been changed.');
-	// });
-	// watchJS.on('change', function(event) {
-	//   console.log('File ' + event + ' has been minified.');
-	// });
+	let watchHTML = gulp.watch(['./assets/src/html/*.html'], gulp.series('html-minify'));
 });
 
 //自動監視のタスクを作成(sass-watchと名付ける)
