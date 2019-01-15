@@ -6,41 +6,47 @@
 
 const w = $('#svgArea').width();
 const h = w * 0.5;
+const centerSVGX = 320;
+const centerSVGY = 160;
 let svg;
 let simulation;
 let nodeData = [];
 let linkData = []; 
 let node, link;
-const nodeSize = 60;
+const nodeSize = 40;
 const maxPow = 3;
 
 function makeData() {
 	const nodePath = [
 		{
 			'name':'icon',
-			'pow': 3 }, 
+			'pow': 2 }, 
 		{
 			'name':'js',
 			'pow':5 },
 		{
 			'name':'nodejs',
-			'pow':4 },
+			'pow':5 },
 		{
 			'name':'unity',
 			'pow': 3 },
 		{
 			'name':'rails',
-			'pow':3 },
+			'pow':1.5 },
 		{
 			'name':'cpp',
-			'pow':3 }
+			'pow':2 },
+		{
+			'name': 'docker',
+			'pow': 4
+		}
 		];
 	nodePath.forEach((v,i) => {
 		const nodeObj = {
 			'id': i,
 			'path': v.name,
 			'pow' : v.pow,
-			'size': nodeSize * Math.pow((v.pow / maxPow),2)
+			'size': nodeSize * v.pow / maxPow
 		};
 		nodeData.push(nodeObj);
 	});
@@ -71,17 +77,17 @@ function makeElement() {
 
 	simulation = d3.forceSimulation()
 		.force('link', d3.forceLink()
-			.distance(200)
-			.strength(0.03)
-			.iterations(10))
+			.distance(100)
+			.strength(0.01)
+			.iterations(40))
 		.force("collide", d3.forceCollide()
 			.radius(function(d) { return d.r; })
 			.strength(-100)
 			.iterations(40))
-		.force("charge", d3.forceManyBody().strength(-800))
-		.force("x", d3.forceX().strength(0.02).x(w / 2))
-		.force("y", d3.forceY().strength(0.02).y(h / 2))
-		.force("center", d3.forceCenter(w/2, h/2));
+		.force("charge", d3.forceManyBody())//.strength(-500))
+		// .force("x", d3.forceX().strength(0.02).x(w / 2))
+		// .force("y", d3.forceY().strength(0.02).y(h / 2))
+		.force("center", d3.forceCenter(centerSVGX, centerSVGY));
 }
 
 function applyElement() {
@@ -108,8 +114,8 @@ function applyElement() {
 			.attr('x2', function(d) { return d.target.x; })
 			.attr('y2', function(d) { return d.target.y; });
 		const root = simulation.nodes()[0];
-		root.fx = 320;
-		root.fy = 200;
+		root.fx = centerSVGX;
+		root.fy = centerSVGY;
   }
 
   // 5. ドラッグ時のイベント関数
