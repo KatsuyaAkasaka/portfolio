@@ -4,8 +4,8 @@
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 */
 
-const w = 1000;
-const h = 480;
+const w = $('#svgArea').width();
+const h = w * 0.5;
 let svg;
 let simulation;
 let nodeData = [];
@@ -40,7 +40,7 @@ function makeData() {
 			'id': i,
 			'path': v.name,
 			'pow' : v.pow,
-			'size': nodeSize * Math.pow((v.pow / maxPow), 2)
+			'size': nodeSize * Math.pow((v.pow / maxPow),2)
 		};
 		nodeData.push(nodeObj);
 	});
@@ -73,12 +73,11 @@ function makeElement() {
 		.force('link', d3.forceLink()
 			.distance(200)
 			.strength(0.03)
-			.iterations(16))
-		.force("collide",
-			d3.forceCollide()
+			.iterations(10))
+		.force("collide", d3.forceCollide()
 			.radius(function(d) { return d.r; })
-			.strength(0.1)
-			.iterations(16))
+			.strength(-100)
+			.iterations(40))
 		.force("charge", d3.forceManyBody().strength(-800))
 		.force("x", d3.forceX().strength(0.02).x(w / 2))
 		.force("y", d3.forceY().strength(0.02).y(h / 2))
@@ -87,7 +86,7 @@ function makeElement() {
 
 function applyElement() {
 	simulation
-		.velocityDecay(0.02)
+		.velocityDecay(0.2)
 	simulation
 		.nodes(nodeData)
 		.on("tick", ticked);
@@ -109,8 +108,8 @@ function applyElement() {
 			.attr('x2', function(d) { return d.target.x; })
 			.attr('y2', function(d) { return d.target.y; });
 		const root = simulation.nodes()[0];
-		root.fx = w/2;
-		root.fy = h/2;
+		root.fx = 320;
+		root.fy = 200;
   }
 
   // 5. ドラッグ時のイベント関数
@@ -133,10 +132,8 @@ function dragended(d) {
 
 
 function createMap () {
-	svg = d3.select("#skillMap")
-		.append("svg")
-		.attr('width', w)
-		.attr('height', h);
+	svg = d3.select("#svgArea");
+	console.log(svg);
 
 	makeData();
 
