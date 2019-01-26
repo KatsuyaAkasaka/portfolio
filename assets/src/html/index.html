@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html lang="ja">
 	<head>
-		<title>sakasの部屋</title>
+		<title>sakasの掲示板</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
 		<link rel="stylesheet" href="assets/src/css/main.css">
@@ -15,7 +15,7 @@
 				<span class="icon">
 					<img src="images/icon.jpeg" alt="sakas">
 				</span>
-				<h1>サカスの部屋</h1>
+				<h1>サカスの掲示板</h1>
 				<p>built by 
 					<a href="https://twitter.com/sakas1231">@sakas1231</a>.
 				</p>
@@ -30,13 +30,13 @@
 						<a href="#timeline">What's new!</a>
 					</li>
 					<li>
-						<a href="#about" class="active">About me</a>
-					</li>
-					<li>
 						<a href="#skills">Skills</a>
 					</li>
 					<li>
 						<a href="#products">Products</a>
+					</li>
+					<li>
+						<a href="#about" class="active">About me</a>
 					</li>
 				</ul>
 			</nav>
@@ -44,16 +44,17 @@
 				<section id="goal" class="main special">
 					<header class="major">
 						<h2>今月の目標</h2>
-					<div>
+					</header>
+					<div id="content">
 						<h3>卒論を終わらせる!</h3>
+						<a href="generic.min.html" class="button">アーカイブへ</a>
 					</div>
-					<a href="generic.min.html" class="button">アーカイブへ</a>
 				</section>
 				<section id="timeline" class="main special">
 					<header class="major">
-						<h2>Congue imperdiet</h2>
+						<h2>タイムライン</h2>
 						<p>Donec imperdiet consequat consequat. Suspendisse feugiat congue
-							<br>posuere. Nulla massa urna, fermentum eget quam aliquet.
+						<br>posuere. Nulla massa urna, fermentum eget quam aliquet.
 						</p>
 					</header>
 					<footer class="major">
@@ -67,29 +68,12 @@
 						</ul>
 					</footer>
 				</section>
-				<section id="about" class="main">
-					<div class="spotlight">
-						<div class="content">
-							<header class="major">
-								<h2>サカス</h2>
-							</header>
-							<p>1996年12月31日生まれの大学生</p>
-							<p>ゲーム作ってた時期もあったけど、今はサーバサイドエンジニアとして頑張ってます</p>
-							<p>
-								<a href="https://satori-lab.jp">サトリラボ</a>というチームでいろんなことをしています
-							</p>
-						</div>
-						<span class="image">
-							<img src="images/icon.jpeg" alt="">
-						</span>
-					</div>
-				</section>
 				<section id="skills" class="main special">
 					<header class="major">
 						<h2>スキル</h2>
 					</header>
-					<div id="skillMap">
-						<svg id="svgArea" viewBox="0 0 640 320"></svg>
+					<div id="content">
+						<svg id="svgArea" viewBox="0, 0, 640, 320"></svg>
 					</div>
 				</section>
 				<section id="products" class="main special">
@@ -97,38 +81,26 @@
 						<h2>制作物</h2>
 						<!-- <p>工事中</p> -->
 					</header>
+					<div id="content">
 						<p>工事中</p>
 						<p>しばしお待ちを</p>
-					<!-- <ul class="statistics"> -->
-					<!--   <li class="style1"> -->
-					<!--     <span class="icon fa-code-fork"></span> -->
-					<!--     <strong>5,120</strong>Etiam -->
-					<!--   </li> -->
-					<!--   <li class="style2"> -->
-					<!--     <span class="icon fa-folder-open-o"></span> -->
-					<!--     <strong>8,192</strong>Magna -->
-					<!--   </li> -->
-					<!--   <li class="style3"> -->
-					<!--     <span class="icon fa-signal"></span> -->
-					<!--     <strong>2,048</strong>Tempus -->
-					<!--   </li> -->
-					<!--   <li class="style4"> -->
-					<!--     <span class="icon fa-laptop"></span> -->
-					<!--     <strong>4,096</strong>Aliquam -->
-					<!--   </li> -->
-					<!--   <li class="style5"> -->
-					<!--     <span class="icon fa-diamond"></span> -->
-					<!--     <strong>1,024</strong>Nullam -->
-					<!--   </li> -->
-					<!-- </ul> -->
-					<!-- <p class="content">Nam elementum nisl et mi a commodo porttitor. Morbi sit amet nisl eu arcu faucibus hendrerit vel a risus. Nam a orci mi, elementum ac arcu sit amet, fermentum pellentesque et purus. Integer maximus varius lorem, sed convallis diam accumsan sed. Etiam porttitor placerat sapien, sed eleifend a enim pulvinar faucibus semper quis ut arcu. Ut non nisl a mollis est efficitur vestibulum. Integer eget purus nec nulla mattis et accumsan ut magna libero. Morbi auctor iaculis porttitor. Sed ut magna ac risus et hendrerit scelerisque. Praesent eleifend lacus in lectus aliquam porta. Cras eu ornare dui curabitur lacinia.</p> -->
-					<!-- <footer class="major"> -->
-					<!--   <ul class="actions special"> -->
-					<!--     <li> -->
-					<!--       <a href="generic.html" class="button">Learn More</a> -->
-					<!--     </li> -->
-					<!--   </ul> -->
-					<!-- </footer> -->
+					</div>
+				</section>
+				<section id="about" class="main">
+					<header class="major special">
+						<h2>サカス</h2>
+					</header>
+					<div class="spotlight">
+						<div class="content">
+							<p>1996年12月31日生まれの大学生</p>
+							<p>サーバサイドエンジニア</p>
+							<p>Unityでゲーム作ったりもする</p>
+							<p><a href="https://satori-lab.jp">サトリラボ</a>というチームでいろんなことをしています</p>
+						</div>
+						<div class="image right">
+							<img src="images/icon.jpeg" alt="">
+						</div>
+					</div>
 				</section>
 			</div>
 			<footer id="footer">
@@ -149,7 +121,9 @@
 						</a>
 					</li>
 				</ul>
-				<p class="copyright">&copy; 2019 sakas All Rights Reserved.</p>
+				<div class="copyright">
+					<p>&copy; 2019 sakas All Rights Reserved.</p>
+				</div>
 			</footer>
 		</div>
 		<script src="assets/dest/js/jquery.min.js"></script>

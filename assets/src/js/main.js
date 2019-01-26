@@ -2,8 +2,7 @@
 	Stellar by HTML5 UP
 	html5up.net | @ajlkn
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
-*/
-
+	*/ 
 const w = $('#svgArea').width();
 const h = w * 0.5;
 const centerSVGX = 320;
@@ -40,7 +39,7 @@ function makeData() {
 			'name': 'docker',
 			'pow': 4
 		}
-		];
+	];
 	nodePath.forEach((v,i) => {
 		const nodeObj = {
 			'id': i,
@@ -85,8 +84,8 @@ function makeElement() {
 			.strength(-100)
 			.iterations(40))
 		.force("charge", d3.forceManyBody())//.strength(-500))
-		// .force("x", d3.forceX().strength(0.02).x(w / 2))
-		// .force("y", d3.forceY().strength(0.02).y(h / 2))
+	// .force("x", d3.forceX().strength(0.02).x(w / 2))
+	// .force("y", d3.forceY().strength(0.02).y(h / 2))
 		.force("center", d3.forceCenter(centerSVGX, centerSVGY));
 }
 
@@ -103,22 +102,22 @@ function applyElement() {
 }
 
 
-  // 4. forceSimulation 描画更新用関数
-  function ticked() {
-		node
-			.attr('x', function(d) { return d.x - d.size/2; })
-			.attr('y', function(d) { return d.y - d.size/2; });
-		link
-			.attr('x1', function(d) { return d.source.x; })
-			.attr('y1', function(d) { return d.source.y; })
-			.attr('x2', function(d) { return d.target.x; })
-			.attr('y2', function(d) { return d.target.y; });
-		const root = simulation.nodes()[0];
-		root.fx = centerSVGX;
-		root.fy = centerSVGY;
-  }
+// 4. forceSimulation 描画更新用関数
+function ticked() {
+	node
+		.attr('x', function(d) { return d.x - d.size/2; })
+		.attr('y', function(d) { return d.y - d.size/2; });
+	link
+		.attr('x1', function(d) { return d.source.x; })
+		.attr('y1', function(d) { return d.source.y; })
+		.attr('x2', function(d) { return d.target.x; })
+		.attr('y2', function(d) { return d.target.y; });
+	const root = simulation.nodes()[0];
+	root.fx = centerSVGX;
+	root.fy = centerSVGY;
+}
 
-  // 5. ドラッグ時のイベント関数
+// 5. ドラッグ時のイベント関数
 function dragstarted(d) {
 	if(!d3.event.active) simulation.alphaTarget(0.3).restart();
 	d.fx = d.x;
@@ -154,114 +153,114 @@ function createMap () {
 		$main = $('#main');
 
 	// Breakpoints.
-		breakpoints({
-			xlarge:   [ '1281px',  '1680px' ],
-			large:    [ '981px',   '1280px' ],
-			medium:   [ '737px',   '980px'  ],
-			small:    [ '481px',   '736px'  ],
-			xsmall:   [ '361px',   '480px'  ],
-			xxsmall:  [ null,      '360px'  ]
-		});
+	breakpoints({
+		xlarge:   [ '1281px',  '1680px' ],
+		large:    [ '981px',   '1280px' ],
+		medium:   [ '737px',   '980px'  ],
+		small:    [ '481px',   '736px'  ],
+		xsmall:   [ '361px',   '480px'  ],
+		xxsmall:  [ null,      '360px'  ]
+	});
 
 	// Play initial animations on page load.
-		$window.on('load', function() {
-			window.setTimeout(function() {
-				$body.removeClass('is-preload');
-			}, 100);
-		});
+	$window.on('load', function() {
+		window.setTimeout(function() {
+			$body.removeClass('is-preload');
+		}, 100);
+	});
 
 	// Nav.
-		var $nav = $('#nav');
+	var $nav = $('#nav');
 
-		if ($nav.length > 0) {
+	if ($nav.length > 0) {
 
-			// Shrink effect.
-				$main
-					.scrollex({
-						mode: 'top',
-						enter: function() {
-							$nav.addClass('alt');
-						},
-						leave: function() {
-							$nav.removeClass('alt');
-						},
-					});
+		// Shrink effect.
+		$main
+			.scrollex({
+				mode: 'top',
+				enter: function() {
+					$nav.addClass('alt');
+				},
+				leave: function() {
+					$nav.removeClass('alt');
+				},
+			});
 
-			// Links.
-				var $nav_a = $nav.find('a');
+		// Links.
+		var $nav_a = $nav.find('a');
 
+		$nav_a
+			.scrolly({
+				speed: 1000,
+				offset: function() { return $nav.height(); }
+			})
+			.on('click', function() {
+
+				var $this = $(this);
+
+				// External link? Bail.
+				if ($this.attr('href').charAt(0) != '#')
+					return;
+
+				// Deactivate all links.
 				$nav_a
-					.scrolly({
-						speed: 1000,
-						offset: function() { return $nav.height(); }
-					})
-					.on('click', function() {
+					.removeClass('active')
+					.removeClass('active-locked');
 
-						var $this = $(this);
+				// Activate link *and* lock it (so Scrollex doesn't try to activate other links as we're scrolling to this one's section).
+				$this
+					.addClass('active')
+					.addClass('active-locked');
 
-						// External link? Bail.
-							if ($this.attr('href').charAt(0) != '#')
-								return;
+			})
+			.each(function() {
 
-						// Deactivate all links.
-							$nav_a
-								.removeClass('active')
-								.removeClass('active-locked');
+				var	$this = $(this),
+					id = $this.attr('href'),
+					$section = $(id);
 
-						// Activate link *and* lock it (so Scrollex doesn't try to activate other links as we're scrolling to this one's section).
-							$this
-								.addClass('active')
-								.addClass('active-locked');
+				// No section for this link? Bail.
+				if ($section.length < 1)
+					return;
 
-					})
-					.each(function() {
+				// Scrollex.
+				$section.scrollex({
+					mode: 'middle',
+					initialize: function() {
 
-						var	$this = $(this),
-							id = $this.attr('href'),
-							$section = $(id);
+						// Deactivate section.
+						if (browser.canUse('transition'))
+							$section.addClass('inactive');
 
-						// No section for this link? Bail.
-							if ($section.length < 1)
-								return;
+					},
+					enter: function() {
 
-						// Scrollex.
-							$section.scrollex({
-								mode: 'middle',
-								initialize: function() {
+						// Activate section.
+						$section.removeClass('inactive');
 
-									// Deactivate section.
-										if (browser.canUse('transition'))
-											$section.addClass('inactive');
+						// No locked links? Deactivate all links and activate this section's one.
+						if ($nav_a.filter('.active-locked').length == 0) {
 
-								},
-								enter: function() {
+							$nav_a.removeClass('active');
+							$this.addClass('active');
 
-									// Activate section.
-										$section.removeClass('inactive');
+						}
 
-									// No locked links? Deactivate all links and activate this section's one.
-										if ($nav_a.filter('.active-locked').length == 0) {
+						// Otherwise, if this section's link is the one that's locked, unlock it.
+						else if ($this.hasClass('active-locked'))
+							$this.removeClass('active-locked');
 
-											$nav_a.removeClass('active');
-											$this.addClass('active');
+					}
+				});
 
-										}
+			});
 
-									// Otherwise, if this section's link is the one that's locked, unlock it.
-										else if ($this.hasClass('active-locked'))
-											$this.removeClass('active-locked');
-
-								}
-							});
-
-					});
-
-		}
+	}
 
 	// Scrolly.
-		$('.scrolly').scrolly({
-			speed: 1000
-		});
+	$('.scrolly').scrolly({
+		speed: 1000
+	});
 
 	createMap();
 

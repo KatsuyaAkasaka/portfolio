@@ -1,4 +1,5 @@
 @import 'libs/vars';
+
 @import 'libs/functions';
 @import 'libs/mixins';
 @import 'libs/vendor';
@@ -60,7 +61,6 @@
 	@import 'components/features';
 	@import 'components/statistics';
 	@import 'components/spotlight';
-
 // Layout.
 
 	@import 'layout/header';
