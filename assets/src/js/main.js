@@ -261,7 +261,9 @@ function createMap () {
 	$('.scrolly').scrolly({
 		speed: 1000
 	});
-
+	//$("a[href=#]").click(function(){
+	//});
 	createMap();
+	
 
 })(jQuery);
