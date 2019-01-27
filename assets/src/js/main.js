@@ -138,7 +138,6 @@ function dragended(d) {
 
 function createMap () {
 	svg = d3.select("#svgArea");
-	console.log(svg);
 
 	makeData();
 
